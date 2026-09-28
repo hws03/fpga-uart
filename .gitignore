@@ -12,3 +12,5 @@
 .Xil/
 
 *.xil/
+
+fpga-uart.srcs/sources_1/new/baud_rate_16x.vhd
