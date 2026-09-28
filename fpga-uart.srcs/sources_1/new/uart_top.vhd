@@ -3,6 +3,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 
 entity uart_top is
+  generic(
+    clk_freq: integer := 100000000;
+    baudrate: integer := 9600
+    );
     port ( 
         clk: in std_logic;
         final_o: out std_logic_vector(7 downto 0);
@@ -32,16 +36,16 @@ port(
 end component;
 
 
-component baud_rate_16x is 
-generic(
-    clk_freq: integer := 100000000;
-    baudrate: integer := 153600
-);
-port(
-    clk: in std_logic;
-    BaudRateGen_16x: out std_logic
-);
-end component;
+--component baud_rate_16x is 
+--generic(
+--    clk_freq: integer := 100000000;
+--    baudrate: integer := 153600
+--);
+--port(
+--    clk: in std_logic;
+--    BaudRateGen_16x: out std_logic
+--);
+--end component;
 
 component Tx is 
 generic(
@@ -98,8 +102,8 @@ begin
 
 baud_rate_instance: baud_rate 
 generic map(
-    clk_freq => 100000000,
-    baudrate => 9600
+    clk_freq => clk_freq,
+    baudrate => baudrate
 )
 port map(
     clk => clk,
@@ -107,14 +111,14 @@ port map(
 );
 
 
-baud_rate_16x_instance: baud_rate_16x 
+baud_rate_16x_instance: baud_rate
 generic map(
-    clk_freq => 100000000,
-    baudrate => 153600
+    clk_freq => clk_freq,
+    baudrate => baudrate * 16
 )
 port map(
     clk => clk,
-    BaudRateGen_16x => tl_baudrate_16x
+    BaudRateGen => tl_baudrate_16x
 );
 
 
